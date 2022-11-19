@@ -54,6 +54,47 @@ router.post('/properties', function(req, res) {
 	});
 });
 
+router.post('/properties/edit/:id', function(req, res) {
+	//req.body is used to read form input
+	var collection = db.get('properties');
+	var new_record = {
+		place: req.body.title,
+		host: req.body.host,
+		path: req.body.image,
+		amenities: req.body.amenities,
+		ratings: req.body.ratings,
+		night_fee: req.body.night_fee,
+		service_fee: req.body.service_fee,
+		cleaning_fee: req.body.cleaning_fee,
+	};
+
+	collection.update({ _id:req.params.id }, {$set : new_record}, {upsert:true}, function(err, pr){
+		if (err) throw err;
+		// if insert is successfull, it will return newly inserted object
+	  	//res.json(video);
+		res.redirect('/properties');
+	});
+});
+
+router.delete('/properties/:id', function(req, res) {
+	var collection = db.get('properties');
+	collection.remove({ _id: req.params.id }, function(err, result){
+		if (err) throw err;
+		res.redirect('/properties');
+	  	//res.render('show', { pr : result[0] });
+		//res.json(result);
+	});
+});
+
+router.get('/properties/:id/edit', function(req, res) {
+	var collection = db.get('properties');
+	collection.find({ _id: req.params.id }, function(err, result){
+		if (err) throw err;
+	  	res.render('edit', { pr : result[0] });
+		//res.json(result);
+	});
+});
+
 router.get('/properties/:id', function(req, res) {
 	var collection = db.get('properties');
 	collection.find({ _id: req.params.id }, function(err, result){

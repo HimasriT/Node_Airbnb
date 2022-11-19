@@ -15,6 +15,14 @@
     <p>No_of_bedrooms: <%= pr.bedrooms %></p>
     <p>Short_Description: <%= pr.short_description %></p>
     <p>Description: <%= pr.description %></p>
+
+	<a class="btn btn-warning" href="/properties/<%=pr._id%>/edit" role = "button"> Edit property</a>    
+
+    <form action="/properties/<%=pr._id %>?_method=DELETE" method="POST">
+
+    <button type="submit" class="btn btn-danger">Delete property</button>
+
+    </form>
     
 <p>
 <a href="/properties">Back to list</a>
